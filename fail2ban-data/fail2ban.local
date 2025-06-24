@@ -1,0 +1,3 @@
+[DEFAULT]
+loglevel = INFO
+logtarget = /var/log/fail2ban.log
