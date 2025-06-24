@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  fail2ban:
+    image: crazymax/fail2ban:latest
+    container_name: fail2ban
+    restart: always
+    cap_add:
+      - SYS_NICE
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - /Users/gustavoalmeida/kamailio-docker/logs/ban:/logs:ro
+      - ./fail2ban-data/jail.d:/data/jail.d:ro
+      - ./fail2ban-data/filter.d:/data/filter.d:ro
+      - ./fail2ban-data/fail2ban.local:/etc/fail2ban/fail2ban.local:ro
+      - ./fail2ban-data/cron-reload/reload-fail2ban:/etc/periodic/hourly/reload-fail2ban:ro
+      - ./logs:/var/log:rw
+    networks:
+      common-network:
+        ipv4_address: 172.25.0.48
+
+networks:
+  common-network:
+    external: true
