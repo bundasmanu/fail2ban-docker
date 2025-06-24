@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "[cron] Reloading Fail2Ban"
+fail2ban-client reload
