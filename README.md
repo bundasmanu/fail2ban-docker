@@ -7,6 +7,7 @@
   - [Docker - How Run?](#docker---how-run)
   - [Docker - How Stop?](#docker---how-stop)
   - [Docker - How interact with Fail2Ban Cli?](#docker---how-interact-with-fail2ban-cli)
+  - [Docker - Regex Check](#docker---regex-check)
   - [NOTE](#note)
 
 ## Purpose
@@ -46,6 +47,13 @@ docker exec -it fail2ban fail2ban-client <command>
 docker exec -it fail2ban fail2ban-client status
 docker exec -it fail2ban fail2ban-client status custom-ban
 docker exec -it fail2ban fail2ban-client reload
+```
+
+## Docker - Regex Check
+
+```sh
+docker exec -it fail2ban fail2ban-regex <log> <filter>
+docker exec -it fail2ban fail2ban-regex /logs/ban_1750872643.log /data/filter.d/custom-ban.conf
 ```
 
 ## NOTE
