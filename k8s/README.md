@@ -1,4 +1,4 @@
-# Kubernetes / Helm – Fail2Ban (host mode)
+# Kubernetes / Helm – Fail2Ban (in host mode)
 
 Kubernetes and Helm support for Fail2Ban in **host mode**: one pod per node (DaemonSet), host network, host iptables. Config is **embedded in the chart** (from `config/`); no need to copy or mount fail2ban-data on nodes.
 
