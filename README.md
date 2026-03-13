@@ -19,7 +19,7 @@ The setup is designed to be easily configurable and extensible, allowing users t
 
 - **fail2ban.local**: File used to override settings on `/etc/fail2ban/fail2ban.conf`;
 - **jail.d/**: Directory containing custom action scripts for Fail2Ban, allowing you to specify how bans are enforced (e.g., firewall rules, notifications) and matching with our custom filters and logs;
-- **filter.d/**: Directory for custom filter definitions, which determine the patterns Fail2Ban looks for in log files to detect malicious activity.
+- **filter.d/**: Directory for custom filter definitions, which determine the patterns Fail2Ban looks for in log files to detect malicious activity;
 - **cron-reload/**: Contains cron job definitions for automating tasks such as Fail2Ban reload, Fail2Ban restarts, or other maintenance scripts. At this phase, a cron is added to reload Fail2Ban every hour.
   - This cron jobs are important if we are dealing with dynamic logs, where the filename is not static and we had log rotation, with different names, and we need to reload Fail2Ban, to add the new log files to the monitoring list.
 
