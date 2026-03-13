@@ -2,11 +2,12 @@ name: Helm Install test
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
+    tags: ['*']
     paths:
       - 'k8s/**'
   pull_request:
-    branches: [main, master]
+    branches: [main]
     paths:
       - 'k8s/**'
 
