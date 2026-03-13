@@ -1,0 +1,8 @@
+[custom-ban]
+enabled = true
+filter = custom-ban
+action = iptables-allports[name=custom-ban]
+logpath = /logs/*.log
+maxretry = 1
+findtime = 600
+bantime = -1

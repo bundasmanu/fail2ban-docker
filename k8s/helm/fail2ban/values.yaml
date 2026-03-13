@@ -1,0 +1,15 @@
+# Fail2Ban in host mode (DaemonSet, hostNetwork, host iptables).
+# Config (jail.d, filter.d, fail2ban.local, cron-reload) is embedded in the chart from config/.
+
+image:
+  repository: crazymax/fail2ban
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Host path for application logs that fail2ban monitors (mounted read-only at containerLogPath).
+hostLogPath: /var/log
+
+# Path inside the container where hostLogPath is mounted (jail logpath should use this, e.g. /logs/*.log).
+containerLogPath: /logs
+
+resources: {}

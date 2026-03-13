@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ .Release.Name }}-fail2ban
+  labels:
+    app.kubernetes.io/name: fail2ban
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fail2ban
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fail2ban
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      hostNetwork: true
+      hostPID: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: fail2ban
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - SYS_NICE
+                - NET_ADMIN
+                - NET_RAW
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: fail2ban-data-jail
+              mountPath: /etc/fail2ban/jail.d/fail2ban-jail.local
+              subPath: fail2ban-jail.local
+              readOnly: true
+            - name: fail2ban-data-filter
+              mountPath: /etc/fail2ban/filter.d/custom-ban.conf
+              subPath: custom-ban.conf
+              readOnly: true
+            - name: fail2ban-data-main
+              mountPath: /etc/fail2ban/fail2ban.local
+              subPath: fail2ban.local
+              readOnly: true
+            - name: fail2ban-data-cron
+              mountPath: /etc/periodic/hourly/reload-fail2ban
+              subPath: reload-fail2ban
+              readOnly: true
+            - name: host-logs
+              mountPath: {{ .Values.containerLogPath }}
+              readOnly: true
+            - name: fail2ban-log
+              mountPath: /var/log
+      volumes:
+        - name: fail2ban-data-jail
+          configMap:
+            name: {{ .Release.Name }}-fail2ban-jail
+        - name: fail2ban-data-filter
+          configMap:
+            name: {{ .Release.Name }}-fail2ban-filter
+        - name: fail2ban-data-main
+          configMap:
+            name: {{ .Release.Name }}-fail2ban-main
+        - name: fail2ban-data-cron
+          configMap:
+            name: {{ .Release.Name }}-fail2ban-cron
+            defaultMode: 0755
+        - name: host-logs
+          hostPath:
+            path: {{ .Values.hostLogPath }}
+            type: DirectoryOrCreate
+        - name: fail2ban-log
+          hostPath:
+            path: /var/log
+            type: DirectoryOrCreate
