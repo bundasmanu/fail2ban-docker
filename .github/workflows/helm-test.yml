@@ -56,9 +56,12 @@ jobs:
             --create-namespace
           # No --wait: DaemonSet uses hostNetwork/privileged; pods may not become Ready in kind
 
+      - name: Wait for DaemonSet rollout (pods Running/Ready)
+        run: |
+          kubectl rollout status daemonset/fail2ban-fail2ban -n fail2ban --timeout=60s
+          kubectl get pods -n fail2ban -o wide
+
       - name: Verify release and resources
         run: |
           helm list -n fail2ban
           kubectl get daemonset -n fail2ban
-          kubectl get configmap -n fail2ban
-          kubectl get pods -n fail2ban

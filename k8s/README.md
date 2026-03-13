@@ -13,7 +13,7 @@ Kubernetes and Helm support for Fail2Ban in **host mode**: one pod per node (Dae
 helm install fail2ban ./k8s/helm/fail2ban --namespace fail2ban --create-namespace
 ```
 
-No `--set` needed. The chart ships with the repo’s jail, filter, and cron config.
+No `--set` needed. The chart ships with the repo’s jail, filter, and cron configs.
 
 ## Configuration (values.yaml)
 
